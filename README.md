@@ -40,12 +40,13 @@ docker run -it --rm -e AMD_VISIBLE_DEVICES=all \
 ```bash
   vllm-service:
     image: gvinsot/vllm-strixhalo-minimal:latest
-    command: ["--model", "openai/gpt-oss-20b", "--gpu-memory-utilization", "0.40"]
+    command: ["--gpu-memory-utilization", "0.40"]
     networks:
       - proxy
     environment:
       - AMD_VISIBLE_DEVICES=all
       - HUGGING_FACE_HUB_TOKEN=${HF_TOKEN:-}
+      - VLLM_MODEL=mlabonne/gemma-3-27b-it-abliterated
 ```
 
 ---

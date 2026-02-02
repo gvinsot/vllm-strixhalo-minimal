@@ -4,10 +4,9 @@
 FROM kyuz0/vllm-therock-gfx1151:20260202-084655
 
 ENV AMD_VISIBLE_DEVICES=all
-ENV VLLM_MODEL=openai/gpt-oss-20b
-ENV VLLM_GPU_MEMORY_UTILIZATION=0.40
+ENV VLLM_MODEL=Qwen/Qwen3-0.6B
 
 EXPOSE 8000
 
-ENTRYPOINT ["/bin/sh", "-c", "exec python3 -m vllm.entrypoints.openai.api_server --model \"${VLLM_MODEL}\" --gpu-memory-utilization \"${VLLM_GPU_MEMORY_UTILIZATION}\" --enforce-eager --host 0.0.0.0 \"$@\""]
+ENTRYPOINT ["/bin/sh", "-c", "exec python3 -m vllm.entrypoints.openai.api_server --enforce-eager --host 0.0.0.0 --model $VLLM_MODEL \"$@\"", "--"]
 CMD []
