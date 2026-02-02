@@ -77,4 +77,4 @@ my-service:
 - **Config**: Define a config named `rocm-test` with the contents of `rocm-test.sh` so the container can run it.
 - **Environment**: `AMD_VISIBLE_DEVICES=all` exposes all AMD GPUs to the container.
 
-For vLLM, use the image from this repo (e.g. `vllm-minimal`) instead of `rocm/pytorch:latest`, set the appropriate entrypoint/command for the vLLM server, and keep `AMD_VISIBLE_DEVICES=all` and the same placement pattern.
+For vLLM, use the image from this repo (e.g. `vllm-strixhalo-minimal`) instead of `rocm/pytorch:latest`, set the appropriate entrypoint/command for the vLLM server, and keep `AMD_VISIBLE_DEVICES=all` and the same placement pattern.

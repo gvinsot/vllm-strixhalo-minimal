@@ -18,7 +18,6 @@ Run a **production-ready LLM API** on **Strix Halo** with the best trade-off bet
 | **Swarm simplicity** | [SETUP.md](SETUP.md) | How to set up a Swarm that runs GPU containers on AMD. |
 | **Architecture** | [ARCHITECTURE.md](ARCHITECTURE.md) | Schema: multiple Strix Halo nodes in Swarm. |
 | **Why vLLM** | [WHY-VLLM.md](WHY-VLLM.md) | Ollama/llama.cpp (Vulkan) vs vLLM; why a custom vLLM image for now. |
-| **Docker image** | [IMAGE.md](IMAGE.md) | Custom vLLM image: what it does, build, run, test. |
 
 ---
 
@@ -38,7 +37,14 @@ docker run -it --rm -e AMD_VISIBLE_DEVICES=all \
 **Run vLLM in swarm:**
 
 ```bash
-
+  vllm-service:
+    image: gvinsot/vllm-strixhalo-minimal:latest
+    command: ["--model", "openai/gpt-oss-20b", "--gpu-memory-utilization", "0.40"]
+    networks:
+      - proxy
+    environment:
+      - AMD_VISIBLE_DEVICES=all
+      - HUGGING_FACE_HUB_TOKEN=${HF_TOKEN:-}
 ```
 
 
