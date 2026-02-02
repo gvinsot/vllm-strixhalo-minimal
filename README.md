@@ -17,13 +17,12 @@ Run a **production-ready LLM API** on **Strix Halo** with the best trade-off bet
 | **Halo Strix advantage** | [HALO-STRIX.md](HALO-STRIX.md) | Pros and cons of Strix Halo for LLM API (cost, power, integration). |
 | **Swarm simplicity** | [SETUP.md](SETUP.md) | How to set up a Swarm that runs GPU containers on AMD. |
 | **Architecture** | [ARCHITECTURE.md](ARCHITECTURE.md) | Schema: multiple Strix Halo nodes in Swarm. |
-| **Why vLLM** | [WHY-VLLM.md](WHY-VLLM.md) | Ollama/llama.cpp (Vulkan) vs vLLM; why a custom vLLM image for now. |
 
 ---
 
 ## Quick start
 
-**Prerequisites:** Prepare the machine (Docker + AMD GPU, or Swarm on AMD nodes) 
+**Prerequisites:** Prepare each machine (Docker + AMD GPU, or Swarm on AMD nodes) 
 
 → [SETUP.md](SETUP.md).
 
@@ -54,3 +53,13 @@ docker run -it --rm -e AMD_VISIBLE_DEVICES=all \
 ## References
 
 - **[kyuz0/vllm-therock-gfx1151](https://hub.docker.com/r/kyuz0/vllm-therock-gfx1151)** — vLLM image for The Rock / gfx1151; rebuilt every 3 hours, I used it selecting a well working version for me.
+
+
+As of 1st of february 2026, I could only find those images working well on my Strix Halo with Ubuntu 25.10
+
+- ollama/ollama:latest (using Vulkan)
+- kyuz0/vllm-therock-gfx1151:20260202-084655
+- rocm/vllm-dev:rocm7.2_navi_ubuntu24.04_py3.12_pytorch_2.9_vllm_0.14.0rc0
+- rocm/pytorch:rocm7.2_ubuntu24.04_py3.12_pytorch_release_2.8.0
+
+Please share any image working for you.

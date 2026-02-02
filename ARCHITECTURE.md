@@ -29,7 +29,7 @@ How to run an LLM API across **multiple AMD Strix Halo** machines using **Docker
 
 - **One Swarm cluster**: manager + N worker nodes; workers with AMD GPUs are the Strix Halo machines.
 - **Services with placement**: vLLM (or any GPU service) is deployed with `node.hostname == <gpu-node>` so each task runs on a specific Strix Halo node.
-- **Same image everywhere**: the custom vLLM image from this repo runs on each GPU node; see [IMAGE.md](IMAGE.md).
+- **Same image everywhere**: the custom vLLM image from this repo runs on each GPU node.
 - **API**: Each node serves the vLLM API (e.g. port 8000). The load balancer in front distributes requests across nodes.
 
 ---

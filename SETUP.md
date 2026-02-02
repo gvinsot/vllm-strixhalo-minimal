@@ -57,7 +57,7 @@ Example stack service that runs on a specific node and uses the AMD runtime:
 
 ```yaml
 my-service:
-  image: rocm/pytorch:latest
+  image: rocm/pytorch:rocm7.2_ubuntu24.04_py3.12_pytorch_release_2.8.0
   entrypoint: ["/bin/bash", "/rocm-test.sh"]
   environment:
     - AMD_VISIBLE_DEVICES=all
