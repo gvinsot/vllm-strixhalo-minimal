@@ -23,7 +23,9 @@ Run a **production-ready LLM API** on **Strix Halo** with the best trade-off bet
 
 ## Quick start
 
-**Prerequisites:** Prepare the machine (Docker + AMD GPU, or Swarm on AMD nodes) → [SETUP.md](SETUP.md).
+**Prerequisites:** Prepare the machine (Docker + AMD GPU, or Swarm on AMD nodes) 
+
+→ [SETUP.md](SETUP.md).
 
 **Run vLLM image using docker:**
 
@@ -46,10 +48,6 @@ docker run -it --rm -e AMD_VISIBLE_DEVICES=all \
       - AMD_VISIBLE_DEVICES=all
       - HUGGING_FACE_HUB_TOKEN=${HF_TOKEN:-}
 ```
-
-
-
-Details, test command, and image status → [IMAGE.md](IMAGE.md).
 
 ---
 
