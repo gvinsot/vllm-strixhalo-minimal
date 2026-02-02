@@ -53,28 +53,38 @@ sudo systemctl restart docker
 
 ## 3. Run a service in Swarm
 
-Example stack service that runs on a specific node and uses the AMD runtime:
+Example stack that runs **Ollama** on a GPU node. No extra scripts or configs—the image runs as-is. Save as `stack.yml` and deploy with `docker stack deploy -c stack.yml my-stack`.
 
 ```yaml
-my-service:
-  image: rocm/pytorch:rocm7.2_ubuntu24.04_py3.12_pytorch_release_2.8.0
-  entrypoint: ["/bin/bash", "/rocm-test.sh"]
-  environment:
-    - AMD_VISIBLE_DEVICES=all
-  configs:
-    - source: rocm-test
-      target: /rocm-test.sh
-      mode: 0755
-  networks:
-    - proxy
-  deploy:
-    placement:
-      constraints:
-        - node.hostname == my-server
+services:
+  ollama:
+    image: ollama/ollama:latest
+    environment:
+      - AMD_VISIBLE_DEVICES=all
+      - OLLAMA_HOST=0.0.0.0
+    volumes:
+      - ollama:/root/.ollama
+    ports:
+      - "11434:11434"
+    networks:
+      - proxy
+    deploy:
+      replicas: 1
+      placement:
+        constraints:
+          - node.hostname == my-server
+
+networks:
+  proxy:
+    external: true
+
+volumes:
+  ollama:
 ```
 
-- **Placement**: `node.hostname == my-server` pins the service to the node named `my-server` (change to your GPU node hostname).
-- **Config**: Define a config named `rocm-test` with the contents of `rocm-test.sh` so the container can run it.
-- **Environment**: `AMD_VISIBLE_DEVICES=all` exposes all AMD GPUs to the container.
+- **Placement**: `node.hostname == my-server` pins the service to your GPU node (change to that node’s hostname).
+- **Environment**: `AMD_VISIBLE_DEVICES=all` exposes AMD GPUs; `OLLAMA_HOST=0.0.0.0` makes the API reachable on the network.
+- **Volume**: `ollama` persists models under `/root/.ollama` so they survive restarts.
+- **Network**: Create the `proxy` overlay network beforehand with `docker network create -d overlay proxy` (or use an existing one).
 
-For vLLM, use the image from this repo (e.g. `vllm-strixhalo-minimal`) instead of `rocm/pytorch:latest`, set the appropriate entrypoint/command for the vLLM server, and keep `AMD_VISIBLE_DEVICES=all` and the same placement pattern.
+To use **vLLM** instead of Ollama, use this repo’s image with the same placement and `AMD_VISIBLE_DEVICES=all`, and set `VLLM_MODEL` / `VLLM_GPU_MEMORY_UTILIZATION` and `HUGGING_FACE_HUB_TOKEN` via `environment`. The image defaults work; add `shm_size: '16g'` at service level if vLLM needs more shared memory.
