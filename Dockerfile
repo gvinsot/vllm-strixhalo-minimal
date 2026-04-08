@@ -6,9 +6,8 @@ FROM kyuz0/vllm-therock-gfx1151:20260202-084655
 ENV AMD_VISIBLE_DEVICES=all
 ENV VLLM_MODEL=Qwen/Qwen3-0.6B
 
-# Pin Transformers to commit with fix (PR #43593; short ref 9041720 fails in shallow clone)
-RUN pip install --no-cache-dir -U \
-  "git+https://github.com/huggingface/transformers@9041720191cdef9348f09f7c1695db606223d353"
+# Pin Transformers to v5.5.0+ for gemma4 architecture support
+RUN pip install --no-cache-dir -U "transformers>=5.5.0"
 
 EXPOSE 8000
 
